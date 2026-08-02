@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ElevenLabs Voicebot Criteria Dashboard</title>
+  <style>
+    :root {
+      --bg-dark: #0f172a;
+      --card-bg: #1e293b;
+      --border-color: #334155;
+      --accent: #6366f1;
+      --accent-hover: #4f46e5;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --success: #10b981;
+      --danger: #ef4444;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      padding: 2rem;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border-color);
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .title-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .status-badge {
+      font-size: 0.8rem;
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--success);
+      padding: 0.25rem 0.6rem;
+      border-radius: 12px;
+      border: 1px solid var(--success);
+    }
+
+    .config-banner {
+      background: rgba(99, 102, 241, 0.1);
+      border: 1px solid var(--accent);
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .config-banner input {
+      background: var(--bg-dark);
+      border: 1px solid var(--border-color);
+      color: #fff;
+      padding: 0.5rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .sync-meta {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    button.btn {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+
+    button.btn:hover { background: var(--accent-hover); }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 1.5rem;
+    }
+
+    .card h2 {
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+      color: var(--accent);
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 0.5rem;
+    }
+
+    .stat-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.75rem;
+      font-size: 0.95rem;
+    }
+
+    .stat-label { color: var(--text-muted); }
+    .stat-val { font-weight: 600; word-break: break-all; }
+
+    pre {
+      background: #090d16;
+      padding: 1rem;
+      border-radius: 6px;
+      overflow-x: auto;
+      font-size: 0.85rem;
+      color: #cbd5e1;
+      max-height: 300px;
+      white-space: pre-wrap;
+    }
+
+    .full-width { grid-column: 1 / -1; }
+
+    .error-msg {
+      color: var(--danger);
+      font-size: 0.85rem;
+      margin-top: 0.5rem;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <div class="title-group">
+      <div class="title">
+        Voicebot Criteria Monitor
+        <span class="status-badge" id="syncStatus">Auto-Sync Active (Hourly)</span>
+      </div>
+      <p style="color: var(--text-muted); font-size: 0.85rem;">
+        Automated tracker for ElevenLabs Agent configurations & rules
+      </p>
+    </div>
+    <div class="sync-meta">
+      <div>
+        <span>Next Auto Sync: </span><strong id="nextSyncTimer">--:--</strong>
+      </div>
+      <button class="btn" onclick="fetchAgentData(true)">Sync Now</button>
+    </div>
+  </header>
+
+  <!-- Setup Credentials Config -->
+  <div class="config-banner">
+    <input type="password" id="apiKey" placeholder="ElevenLabs API Key (xi-api-key)" />
+    <input type="text" id="agentId" placeholder="ElevenLabs Agent ID" />
+    <button class="btn" onclick="saveCredentials()">Save Credentials</button>
+    <div id="errorMsg" class="error-msg" style="width: 100%;"></div>
+  </div>
+
+  <div class="grid">
+    <!-- General Agent Details -->
+    <div class="card">
+      <h2>Agent Metadata</h2>
+      <div class="stat-row">
+        <span class="stat-label">Agent ID:</span>
+        <span class="stat-val" id="dispAgentId">--</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Agent Name:</span>
+        <span class="stat-val" id="dispAgentName">--</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Last Updated:</span>
+        <span class="stat-val" id="lastUpdated">--</span>
+      </div>
+    </div>
+
+    <!-- Voice & Model Settings -->
+    <div class="card">
+      <h2>Voice & Model Criteria</h2>
+      <div class="stat-row">
+        <span class="stat-label">LLM Model:</span>
+        <span class="stat-val" id="llmModel">--</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Temperature:</span>
+        <span class="stat-val" id="temperature">--</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Voice ID:</span>
+        <span class="stat-val" id="voiceId">--</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Primary Language:</span>
+        <span class="stat-val" id="language">--</span>
+      </div>
+    </div>
+
+    <!-- System Prompt Criteria -->
+    <div class="card full-width">
+      <h2>System Prompt & Conversation Guidelines</h2>
+      <pre id="systemPrompt">Configure credentials above to fetch agent prompt...</pre>
+    </div>
+
+    <!-- Agent Tools / Knowledge Base -->
+    <div class="card full-width">
+      <h2>Connected Tools & Knowledge Base Criteria</h2>
+      <pre id="toolsCriteria">Configure credentials above to fetch tools configuration...</pre>
+    </div>
+  </div>
+</div>
+
+<script>
+  const HOURLY_INTERVAL_MS = 60 * 60 * 1000; // 1 hour in ms
+  let nextSyncTime = Date.now() + HOURLY_INTERVAL_MS;
+
+  // Initialize inputs from localStorage
+  document.getElementById('apiKey').value = localStorage.getItem('el_api_key') || '';
+  document.getElementById('agentId').value = localStorage.getItem('el_agent_id') || '';
+
+  function saveCredentials() {
+    const key = document.getElementById('apiKey').value.trim();
+    const id = document.getElementById('agentId').value.trim();
+
+    if (!key || !id) {
+      showError('Please provide both API Key and Agent ID.');
+      return;
+    }
+
+    localStorage.setItem('el_api_key', key);
+    localStorage.setItem('el_agent_id', id);
+    hideError();
+    fetchAgentData(true);
+  }
+
+  async function fetchAgentData(force = false) {
+    const apiKey = localStorage.getItem('el_api_key');
+    const agentId = localStorage.getItem('el_agent_id');
+
+    if (!apiKey || !agentId) {
+      showError('Missing API credentials. Please set your API Key and Agent ID above.');
+      return;
+    }
+
+    // Check cached data unless forcing refresh
+    const cachedData = localStorage.getItem('el_agent_cache');
+    const lastFetch = localStorage.getItem('el_last_fetch');
+
+    if (!force && cachedData && lastFetch) {
+      const elapsed = Date.now() - parseInt(lastFetch, 10);
+      if (elapsed < HOURLY_INTERVAL_MS) {
+        renderDashboard(JSON.parse(cachedData), parseInt(lastFetch, 10));
+        nextSyncTime = parseInt(lastFetch, 10) + HOURLY_INTERVAL_MS;
+        return;
+      }
+    }
+
+    // Fetch live data directly from ElevenLabs Conversational AI Endpoint
+    try {
+      document.getElementById('syncStatus').innerText = 'Syncing...';
+      const response = await fetch(`https://api.elevenlabs.io/v1/convai/agents/${agentId}`, {
+        method: 'GET',
+        headers: {
+          'xi-api-key': apiKey,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error(`API Error: ${response.status} ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      const now = Date.now();
+
+      // Store in LocalStorage
+      localStorage.setItem('el_agent_cache', JSON.stringify(data));
+      localStorage.setItem('el_last_fetch', now.toString());
+
+      renderDashboard(data, now);
+      nextSyncTime = now + HOURLY_INTERVAL_MS;
+      document.getElementById('syncStatus').innerText = 'Auto-Sync Active (Hourly)';
+      hideError();
+    } catch (err) {
+      console.error(err);
+      showError(`Failed to fetch from ElevenLabs: ${err.message}. If running locally in browser, check CORS settings.`);
+      document.getElementById('syncStatus').innerText = 'Sync Failed';
+    }
+  }
+
+  function renderDashboard(data, timestamp) {
+    const config = data.conversation_config || {};
+    const agentConfig = config.agent || {};
+    const tts = config.tts || {};
+
+    // Populate Meta
+    document.getElementById('dispAgentId').innerText = data.agent_id || 'N/A';
+    document.getElementById('dispAgentName').innerText = data.name || 'Voicebot Agent';
+    document.getElementById('lastUpdated').innerText = new Date(timestamp).toLocaleTimeString();
+
+    // Populate Settings
+    document.getElementById('llmModel').innerText = agentConfig.prompt?.llm || 'Default';
+    document.getElementById('temperature').innerText = agentConfig.prompt?.temperature ?? 'Default';
+    document.getElementById('voiceId').innerText = tts.voice_id || 'N/A';
+    document.getElementById('language').innerText = config.language || 'en';
+
+    // Populate Prompts & Criteria
+    document.getElementById('systemPrompt').innerText = agentConfig.prompt?.prompt || 'No prompt specified';
+    document.getElementById('toolsCriteria').innerText = JSON.stringify({
+      tools: agentConfig.tools || [],
+      knowledge_base: agentConfig.knowledge_base || []
+    }, null, 2);
+  }
+
+  function showError(msg) {
+    const errBox = document.getElementById('errorMsg');
+    errBox.innerText = msg;
+    errBox.style.display = 'block';
+  }
+
+  function hideError() {
+    const errBox = document.getElementById('errorMsg');
+    errBox.style.display = 'none';
+  }
+
+  // Hourly background check loop
+  setInterval(() => {
+    const diff = Math.max(0, Math.floor((nextSyncTime - Date.now()) / 1000));
+    const mins = String(Math.floor(diff / 60)).padStart(2, '0');
+    const secs = String(diff % 60).padStart(2, '0');
+    document.getElementById('nextSyncTimer').innerText = `${mins}:${secs}`;
+
+    if (diff === 0) {
+      fetchAgentData(true);
+    }
+  }, 1000);
+
+  // Initial load execution
+  if (localStorage.getItem('el_api_key') && localStorage.getItem('el_agent_id')) {
+    fetchAgentData();
+  }
+</script>
+
+</body>
+</html>

@@ -1,811 +1,419 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>OmniVoice AI — Next-Gen Voice AI Engine</title>
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Lucide Icons CDN -->
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          colors: {
-            brand: {
-              50: '#f0f6ff',
-              100: '#e0edff',
-              500: '#3b82f6',
-              600: '#2563eb',
-              700: '#1d4ed8',
-              900: '#0f172a',
-            },
-            accent: {
-              cyan: '#06b6d4',
-              violet: '#8b5cf6',
-              emerald: '#10b981',
-            }
-          },
-          fontFamily: {
-            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
-            mono: ['JetBrains Mono', 'Menlo', 'monospace'],
-          },
-          animation: {
-            'pulse-glow': 'pulseGlow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-            'wave-bar': 'waveBar 1.2s ease-in-out infinite alternate',
-          },
-          keyframes: {
-            pulseGlow: {
-              '0%, 100%': { opacity: 0.6, transform: 'scale(1)' },
-              '50%': { opacity: 1, transform: 'scale(1.03)' },
-            },
-            waveBar: {
-              '0%': { height: '15%' },
-              '100%': { height: '100%' },
-            }
-          }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ElevenLabs Multi-Tool Workbench</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --accent-color: #6366f1;
+            --accent-hover: #4f46e5;
+            --text-color: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: #334155;
         }
-      }
-    }
-  </script>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
-    
-    body {
-      background-color: #090d16;
-      color: #f1f5f9;
-      font-family: 'Inter', sans-serif;
-      overflow-x: hidden;
-    }
 
-    .glass-card {
-      background: rgba(15, 23, 42, 0.65);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-    }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
 
-    .glass-card-hover {
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .glass-card-hover:hover {
-      border-color: rgba(59, 130, 246, 0.4);
-      transform: translateY(-2px);
-      box-shadow: 0 12px 30px -10px rgba(59, 130, 246, 0.15);
-    }
+        .container {
+            width: 100%;
+            max-width: 900px;
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-color);
+        }
 
-    .gradient-text {
-      background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 50%, #38bdf8 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
+        h1 {
+            font-size: 1.5rem;
+            margin-top: 0;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #fff;
+        }
 
-    .gradient-border {
-      position: relative;
-      border-radius: 1rem;
-      background: linear-gradient(135deg, rgba(59, 130, 246, 0.3), rgba(139, 92, 246, 0.3));
-      padding: 1px;
-    }
+        .api-key-section {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+        }
 
-    .grid-bg {
-      background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
-      background-size: 24px 24px;
-    }
+        label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: var(--text-muted);
+        }
 
-    /* Visualizer animation bars */
-    .v-bar {
-      width: 4px;
-      border-radius: 9999px;
-      background: linear-gradient(to top, #3b82f6, #06b6d4);
-      transition: height 0.1s ease;
-    }
-  </style>
+        input[type="text"], input[type="password"], textarea, select {
+            width: 100%;
+            padding: 10px 12px;
+            background: #0f172a;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: #fff;
+            font-size: 0.95rem;
+            box-sizing: border-box;
+            margin-bottom: 15px;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+
+        /* Nav Tabs */
+        .tabs {
+            display: flex;
+            gap: 10px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 20px;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            padding: 10px 16px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .tab-btn.active {
+            color: var(--accent-color);
+            border-bottom-color: var(--accent-color);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        button.action-btn {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.2s ease;
+        }
+
+        button.action-btn:hover {
+            background-color: var(--accent-hover);
+        }
+
+        button.action-btn:disabled {
+            background-color: #475569;
+            cursor: not-allowed;
+        }
+
+        .output-box {
+            margin-top: 20px;
+            padding: 15px;
+            background: #0f172a;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+        }
+
+        audio {
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .status {
+            font-size: 0.85rem;
+            margin-top: 8px;
+            color: var(--accent-color);
+        }
+    </style>
 </head>
-<body class="grid-bg min-h-screen flex flex-col justify-between">
+<body>
 
-  <!-- TOP NAVIGATION BAR -->
-  <header class="sticky top-0 z-50 glass-card border-b border-slate-800/80">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-      
-      <!-- Brand Logo -->
-      <a href="#" class="flex items-center space-x-3 group">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 via-accent-violet to-accent-cyan flex items-center justify-center shadow-lg shadow-brand-500/20 group-hover:scale-105 transition-transform">
-          <i data-lucide="waves" class="w-6 h-6 text-white"></i>
-        </div>
-        <span class="text-xl font-bold tracking-tight text-white">
-          Omni<span class="gradient-text">Voice</span>
-        </span>
-        <span class="px-2 py-0.5 text-[10px] font-mono font-semibold tracking-wider text-accent-cyan bg-accent-cyan/10 border border-accent-cyan/20 rounded-full">v3.0</span>
-      </a>
+<div class="container">
+    <h1>ElevenLabs Operations Workbench</h1>
 
-      <!-- Desktop Nav Menu -->
-      <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-300">
-        <a href="#features" class="hover:text-white transition-colors">Features</a>
-        <a href="#simulator" class="hover:text-white transition-colors">Live Sandbox</a>
-        <a href="#calculator" class="hover:text-white transition-colors">Latency & Stack Calculator</a>
-        <a href="#comparison" class="hover:text-white transition-colors">Comparison</a>
-        <a href="#code" class="hover:text-white transition-colors">API Docs</a>
-      </nav>
-
-      <!-- CTA Buttons & Status -->
-      <div class="flex items-center space-x-4">
-        <div class="hidden lg:flex items-center space-x-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-mono">
-          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-          <span>99.99% System Online</span>
-        </div>
-        <button onclick="document.getElementById('simulator').scrollIntoView({behavior: 'smooth'})" class="px-4 py-2 text-sm font-semibold text-white bg-gradient-to-r from-brand-600 to-accent-violet hover:from-brand-500 hover:to-accent-violet/90 rounded-xl shadow-lg shadow-brand-600/25 transition-all hover:scale-[1.02]">
-          Try Live Demo
-        </button>
-      </div>
+    <!-- Global API Settings -->
+    <div class="api-key-section">
+        <label for="apiKey">ElevenLabs API Key</label>
+        <input type="password" id="apiKey" placeholder="Enter your xi-api-key here...">
     </div>
-  </header>
 
-  <!-- HERO SECTION -->
-  <section class="relative pt-16 pb-20 overflow-hidden">
-    <!-- Subtle Background Glows -->
-    <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-brand-600/15 rounded-full blur-[120px] pointer-events-none"></div>
-    <div class="absolute top-1/3 left-1/3 w-[400px] h-[250px] bg-accent-violet/15 rounded-full blur-[100px] pointer-events-none"></div>
-
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-      <div class="text-center max-w-3xl mx-auto mb-12">
-        <!-- Badge -->
-        <div class="inline-flex items-center space-x-2 px-3 py-1.5 rounded-full bg-slate-800/80 border border-slate-700 text-xs font-mono text-slate-300 mb-6">
-          <i data-lucide="zap" class="w-3.5 h-3.5 text-accent-cyan"></i>
-          <span>The speed of Retell + Control of Vapi + Scale of Bland</span>
-        </div>
-
-        <!-- Headline -->
-        <h1 class="text-4xl sm:text-6xl font-extrabold text-white tracking-tight leading-[1.1] mb-6">
-          The Zero-Latency Voice Engine for <span class="gradient-text">Autonomous Phone AI</span>
-        </h1>
-
-        <!-- Subhead -->
-        <p class="text-lg text-slate-400 leading-relaxed">
-          Orchestrate Speech-to-Text, LLMs, and Speech-Synthesis with sub-450ms turnaround. Built for developers who need multi-provider flexibility, native phone batching, and total control over every turn.
-        </p>
-
-        <!-- CTA Action Bar -->
-        <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
-          <a href="#simulator" class="w-full sm:w-auto px-6 py-3.5 rounded-xl font-semibold text-white bg-brand-600 hover:bg-brand-500 transition-all shadow-lg shadow-brand-500/25 flex items-center justify-center space-x-2">
-            <i data-lucide="phone-call" class="w-5 h-5"></i>
-            <span>Test Live Agent Call</span>
-          </a>
-          <a href="#code" class="w-full sm:w-auto px-6 py-3.5 rounded-xl font-semibold text-slate-200 bg-slate-800/80 hover:bg-slate-700 border border-slate-700 transition-all flex items-center justify-center space-x-2">
-            <i data-lucide="terminal" class="w-5 h-5"></i>
-            <span>Explore Developer API</span>
-          </a>
-        </div>
-      </div>
-
-      <!-- KEY METRICS BANNER -->
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto mt-12">
-        <div class="glass-card p-4 rounded-2xl text-center">
-          <div class="text-2xl font-bold font-mono text-accent-cyan">&lt; 450ms</div>
-          <div class="text-xs text-slate-400 mt-1">End-to-End Latency</div>
-        </div>
-        <div class="glass-card p-4 rounded-2xl text-center">
-          <div class="text-2xl font-bold font-mono text-accent-violet">100k+</div>
-          <div class="text-xs text-slate-400 mt-1">Concurrent Calls</div>
-        </div>
-        <div class="glass-card p-4 rounded-2xl text-center">
-          <div class="text-2xl font-bold font-mono text-emerald-400">30+</div>
-          <div class="text-xs text-slate-400 mt-1">Voice & LLM Providers</div>
-        </div>
-        <div class="glass-card p-4 rounded-2xl text-center">
-          <div class="text-2xl font-bold font-mono text-brand-500">$0.05 / min</div>
-          <div class="text-xs text-slate-400 mt-1">Flat Rate Orchestration</div>
-        </div>
-      </div>
-
+    <!-- Multi Work Navigation Tabs -->
+    <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('tts')">Text-To-Speech</button>
+        <button class="tab-btn" onclick="switchTab('sfx')">Sound Effects</button>
+        <button class="tab-btn" onclick="switchTab('stt')">Speech-To-Text</button>
+        <button class="tab-btn" onclick="switchTab('agent')">AI Agent Widget</button>
     </div>
-  </section>
 
-  <!-- INTERACTIVE SIMULATOR SECTION (Retell AI Quality + Vapi Webhooks + Bland Speed) -->
-  <section id="simulator" class="py-16 bg-slate-950/60 border-y border-slate-800/60 relative">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      
-      <div class="text-center max-w-2xl mx-auto mb-10">
-        <h2 class="text-3xl font-bold text-white tracking-tight">Interactive Voice Sandbox</h2>
-        <p class="text-slate-400 text-sm mt-2">Simulate real-time full-duplex conversations with smart interruption handling, variable extraction, and instant tool execution.</p>
-      </div>
+    <!-- TAB 1: Text-to-Speech -->
+    <div id="tts" class="tab-content active">
+        <label for="voiceId">Voice ID</label>
+        <input type="text" id="voiceId" value="21m00Tcm4TlvDq8ikWAM" placeholder="e.g., 21m00Tcm4TlvDq8ikWAM (Rachel)">
 
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <label for="ttsModel">Model</label>
+        <select id="ttsModel">
+            <option value="eleven_multilingual_v2">Eleven Multilingual v2</option>
+            <option value="eleven_flash_v2_5">Eleven Flash v2.5 (Fast / Low Latency)</option>
+            <option value="eleven_v3">Eleven v3 (Expressive)</option>
+        </select>
+
+        <label for="ttsText">Input Text</label>
+        <textarea id="ttsText" rows="4" placeholder="Enter text to generate audio..."></textarea>
+
+        <button class="action-btn" id="ttsBtn" onclick="generateTTS()">Generate Speech</button>
         
-        <!-- Left Column: Agent Controls & Config -->
-        <div class="lg:col-span-5 glass-card p-6 rounded-2xl space-y-5">
-          <div class="flex items-center justify-between border-b border-slate-800 pb-4">
-            <h3 class="font-semibold text-white flex items-center space-x-2">
-              <i data-lucide="sliders" class="w-4 h-4 text-brand-500"></i>
-              <span>Agent Configuration</span>
-            </h3>
-            <span class="text-xs font-mono bg-brand-500/10 text-brand-400 border border-brand-500/20 px-2 py-0.5 rounded">
-              Active Template: Sales Qualifier
-            </span>
-          </div>
-
-          <!-- Provider Selectors (Vapi Feature) -->
-          <div class="space-y-4">
-            <div>
-              <label class="block text-xs font-medium text-slate-400 mb-1">Speech-to-Text (STT)</label>
-              <select id="stt-select" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:border-brand-500 focus:outline-none" onchange="updateLatency()">
-                <option value="deepgram" selected>Deepgram Nova-3 (Fastest - ~110ms)</option>
-                <option value="whisper">Whisper Large v3 (~220ms)</option>
-                <option value="assembly">AssemblyAI Realtime (~180ms)</option>
-              </select>
-            </div>
-
-            <div>
-              <label class="block text-xs font-medium text-slate-400 mb-1">Language Model (LLM)</label>
-              <select id="llm-select" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:border-brand-500 focus:outline-none" onchange="updateLatency()">
-                <option value="gpt4o-mini" selected>OpenAI GPT-4o Mini (~180ms)</option>
-                <option value="claude-haiku">Anthropic Claude 3.5 Haiku (~210ms)</option>
-                <option value="llama-groq">Llama-3.3-70B on Groq (~90ms)</option>
-              </select>
-            </div>
-
-            <div>
-              <label class="block text-xs font-medium text-slate-400 mb-1">Text-to-Speech (TTS)</label>
-              <select id="tts-select" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:border-brand-500 focus:outline-none" onchange="updateLatency()">
-                <option value="elevenlabs" selected>ElevenLabs Turbo v2.5 (~150ms)</option>
-                <option value="cartesia">Cartesia Sonic (~120ms)</option>
-                <option value="openai-tts">OpenAI Alloy (~200ms)</option>
-              </select>
-            </div>
-
-            <div>
-              <label class="block text-xs font-medium text-slate-400 mb-1">Agent Prompt Goal</label>
-              <textarea id="agent-prompt" rows="3" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-xs font-mono text-slate-300 focus:border-brand-500 focus:outline-none">You are Sarah, an AI assistant for Acme Corp. Qualify the prospect's budget, team size, and timeline for software deployment.</textarea>
-            </div>
-          </div>
-
-          <!-- Dynamic Estimated Latency Bar -->
-          <div class="p-3 bg-slate-900/80 rounded-xl border border-slate-800 flex items-center justify-between text-xs">
-            <span class="text-slate-400">Total Stack Delay:</span>
-            <span id="calculated-latency" class="font-mono font-bold text-emerald-400">440 ms (Natural human standard)</span>
-          </div>
+        <div class="output-box" id="ttsOutput" style="display:none;">
+            <label>Generated Audio Output</label>
+            <audio id="ttsAudio" controls></audio>
         </div>
-
-        <!-- Right Column: Interactive Phone Call Console -->
-        <div class="lg:col-span-7 glass-card p-6 rounded-2xl flex flex-col h-[520px]">
-          
-          <!-- Call Header -->
-          <div class="flex items-center justify-between border-b border-slate-800 pb-4">
-            <div class="flex items-center space-x-3">
-              <div id="call-status-indicator" class="w-3 h-3 rounded-full bg-slate-600"></div>
-              <div>
-                <h4 id="agent-name" class="text-sm font-semibold text-white">Sarah (AI Qualifier)</h4>
-                <p id="call-status-text" class="text-xs text-slate-400">Status: Standby</p>
-              </div>
-            </div>
-            
-            <div class="flex items-center space-x-2">
-              <button id="btn-toggle-call" onclick="toggleCall()" class="px-5 py-2 rounded-xl text-sm font-semibold text-white bg-emerald-600 hover:bg-emerald-500 transition-all flex items-center space-x-2 shadow-lg shadow-emerald-600/20">
-                <i data-lucide="phone" class="w-4 h-4"></i>
-                <span id="call-btn-text">Start Web Call</span>
-              </button>
-            </div>
-          </div>
-
-          <!-- Audio Visualizer Waveform -->
-          <div class="my-4 h-16 bg-slate-900/90 rounded-xl border border-slate-800 flex items-center justify-center px-6 overflow-hidden relative">
-            <div id="visualizer-bars" class="flex items-center justify-center space-x-1.5 h-10 w-full">
-              <!-- Visualizer bars generated via JS -->
-            </div>
-            <div id="visualizer-overlay" class="absolute inset-0 bg-slate-900/60 flex items-center justify-center text-xs font-mono text-slate-500">
-              Click 'Start Web Call' to activate live audio session
-            </div>
-          </div>
-
-          <!-- Real-Time Dialogue Transcript Box -->
-          <div id="transcript-box" class="flex-1 bg-slate-900/50 rounded-xl p-4 overflow-y-auto space-y-3 font-mono text-xs text-slate-300 border border-slate-800">
-            <div class="text-slate-500 text-center py-6">Conversation transcript will appear here in real time...</div>
-          </div>
-
-          <!-- Variable Extraction Dashboard (Retell/Bland feature) -->
-          <div class="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between text-[11px] font-mono text-slate-400">
-            <span>Extracted Context:</span>
-            <div class="flex space-x-2">
-              <span id="extracted-budget" class="px-2 py-0.5 rounded bg-slate-800 border border-slate-700 text-slate-300">Budget: --</span>
-              <span id="extracted-timeline" class="px-2 py-0.5 rounded bg-slate-800 border border-slate-700 text-slate-300">Timeline: --</span>
-            </div>
-          </div>
-
-        </div>
-
-      </div>
     </div>
-  </section>
 
-  <!-- FEATURES PILLARS GRID (BEST OF ALL 3 PLATFORMS) -->
-  <section id="features" class="py-20 relative">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      
-      <div class="text-center max-w-3xl mx-auto mb-16">
-        <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-          Engineered by combining the best of the industry leaders
-        </h2>
-        <p class="text-slate-400 mt-3 text-base">
-          Why choose between latency, control, and simplicity when you can have all three?
-        </p>
-      </div>
+    <!-- TAB 2: Sound Effects -->
+    <div id="sfx" class="tab-content">
+        <label for="sfxPrompt">Sound Effect Prompt</label>
+        <textarea id="sfxPrompt" rows="3" placeholder="e.g., Cinematic laser shoot, heavy retro impact..."></textarea>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <label for="sfxDuration">Duration (Seconds, Optional)</label>
+        <input type="text" id="sfxDuration" placeholder="e.g., 2.5">
+
+        <button class="action-btn" id="sfxBtn" onclick="generateSFX()">Generate Sound Effect</button>
+
+        <div class="output-box" id="sfxOutput" style="display:none;">
+            <label>Generated Sound Effect</label>
+            <audio id="sfxAudio" controls></audio>
+        </div>
+    </div>
+
+    <!-- TAB 3: Speech to Text (Transcription) -->
+    <div id="stt" class="tab-content">
+        <label for="sttFile">Upload Audio File (.mp3, .wav)</label>
+        <input type="file" id="sttFile" accept="audio/*">
+
+        <button class="action-btn" id="sttBtn" onclick="transcribeAudio()">Transcribe Audio</button>
+
+        <div class="output-box" id="sttOutput" style="display:none;">
+            <label>Transcription Result</label>
+            <textarea id="sttTextResult" rows="5" readonly></textarea>
+        </div>
+    </div>
+
+    <!-- TAB 4: Embed ElevenLabs Conversational Voice Agent -->
+    <div id="agent" class="tab-content">
+        <label for="agentId">ElevenLabs Agent ID</label>
+        <input type="text" id="agentId" placeholder="Paste your Agent ID from ElevenLabs Dashboard">
+
+        <button class="action-btn" onclick="loadAgentWidget()">Mount Voice Agent Widget</button>
+
+        <div class="output-box" id="agentContainer" style="display:none;">
+            <p class="status">Agent Widget Mounted below or in bottom-right corner.</p>
+        </div>
+    </div>
+
+    <p id="statusMsg" class="status"></p>
+</div>
+
+<script>
+    function switchTab(tabId) {
+        document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
         
-        <!-- Retell AI Pillar -->
-        <div class="glass-card p-6 rounded-2xl glass-card-hover border-slate-800 relative">
-          <div class="w-12 h-12 rounded-xl bg-brand-500/10 border border-brand-500/20 text-brand-400 flex items-center justify-center mb-5">
-            <i data-lucide="zap" class="w-6 h-6"></i>
-          </div>
-          <div class="text-xs font-mono font-semibold text-brand-400 mb-1">RETELL AI ADVANTAGE</div>
-          <h3 class="text-xl font-bold text-white mb-2">Ultra-Low Latency & Turn-Taking</h3>
-          <p class="text-slate-400 text-sm leading-relaxed mb-4">
-            Native bi-directional streaming audio pipeline with intelligent interruption handling. Eliminates awkward pauses so conversations sound 100% human.
-          </p>
-          <ul class="space-y-2 text-xs text-slate-300 font-mono">
-            <li class="flex items-center space-x-2">
-              <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400"></i>
-              <span>Sub-450ms response latency</span>
-            </li>
-            <li class="flex items-center space-x-2">
-              <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400"></i>
-              <span>Real-time voice backchanneling</span>
-            </li>
-            <li class="flex items-center space-x-2">
-              <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400"></i>
-              <span>In-call warm phone transfers</span>
-            </li>
-          </ul>
-        </div>
-
-        <!-- Vapi AI Pillar -->
-        <div class="glass-card p-6 rounded-2xl glass-card-hover border-slate-800 relative">
-          <div class="w-12 h-12 rounded-xl bg-accent-violet/10 border border-accent-violet/20 text-accent-violet flex items-center justify-center mb-5">
-            <i data-lucide="code-2" class="w-6 h-6"></i>
-          </div>
-          <div class="text-xs font-mono font-semibold text-accent-violet mb-1">VAPI AI ADVANTAGE</div>
-          <h3 class="text-xl font-bold text-white mb-2">Total Provider BYOK & Webhooks</h3>
-          <p class="text-slate-400 text-sm leading-relaxed mb-4">
-            Swap any STT, LLM, or TTS model in seconds. Full server-side WebSocket control, custom function calling mid-conversation, and bring-your-own-keys simplicity.
-          </p>
-          <ul class="space-y-2 text-xs text-slate-300 font-mono">
-            <li class="flex items-center space-x-2">
-              <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400"></i>
-              <span>30+ plugged voice & LLM vendors</span>
-            </li>
-            <li class="flex items-center space-x-2">
-              <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400"></i>
-              <span>Server-side event webhooks</span>
-            </li>
-            <li class="flex items-center space-x-2">
-              <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400"></i>
-              <span>JSON Schema function execution</span>
-            </li>
-          </ul>
-        </div>
-
-        <!-- Bland AI Pillar -->
-        <div class="glass-card p-6 rounded-2xl glass-card-hover border-slate-800 relative">
-          <div class="w-12 h-12 rounded-xl bg-accent-cyan/10 border border-accent-cyan/20 text-accent-cyan flex items-center justify-center mb-5">
-            <i data-lucide="phone-outgoing" class="w-6 h-6"></i>
-          </div>
-          <div class="text-xs font-mono font-semibold text-accent-cyan mb-1">BLAND AI ADVANTAGE</div>
-          <h3 class="text-xl font-bold text-white mb-2">High-Volume Outbound Batching</h3>
-          <p class="text-slate-400 text-sm leading-relaxed mb-4">
-            Dispatch up to 100,000 concurrent outbound calls with zero rate limits. Integrated phone pathway with enterprise HIPAA & SOC 2 compliance built in.
-          </p>
-          <ul class="space-y-2 text-xs text-slate-300 font-mono">
-            <li class="flex items-center space-x-2">
-              <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400"></i>
-              <span>1-Click CSV & API Batch Outbound</span>
-            </li>
-            <li class="flex items-center space-x-2">
-              <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400"></i>
-              <span>Verified local phone numbers</span>
-            </li>
-            <li class="flex items-center space-x-2">
-              <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400"></i>
-              <span>Automatic HIPAA PII redaction</span>
-            </li>
-          </ul>
-        </div>
-
-      </div>
-
-    </div>
-  </section>
-
-  <!-- INTERACTIVE LATENCY CALCULATOR -->
-  <section id="calculator" class="py-16 bg-slate-950/80 border-t border-slate-800/80">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-      
-      <div class="glass-card p-8 rounded-3xl border border-slate-800 relative overflow-hidden">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-          
-          <div>
-            <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-brand-500/10 text-brand-400 text-xs font-mono mb-4">
-              <i data-lucide="cpu" class="w-3.5 h-3.5"></i>
-              <span>Real-Time Latency Optimizer</span>
-            </div>
-            <h3 class="text-2xl font-bold text-white tracking-tight mb-3">
-              Calculate Your Custom Voice Stack Speed
-            </h3>
-            <p class="text-slate-400 text-sm leading-relaxed">
-              Standard API chains stack delays sequentially (STT + LLM + TTS = 1,200ms+). Our smart streaming pipeline overlaps speech generation for conversational response rates.
-            </p>
-
-            <div class="mt-6 space-y-3 font-mono text-xs">
-              <div class="flex justify-between text-slate-400">
-                <span>STT Processing:</span>
-                <span id="calc-stt-val" class="text-slate-200">110 ms</span>
-              </div>
-              <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
-                <div id="bar-stt" class="bg-accent-cyan h-full transition-all duration-300" style="width: 25%"></div>
-              </div>
-
-              <div class="flex justify-between text-slate-400">
-                <span>LLM First-Token Generation:</span>
-                <span id="calc-llm-val" class="text-slate-200">180 ms</span>
-              </div>
-              <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
-                <div id="bar-llm" class="bg-brand-500 h-full transition-all duration-300" style="width: 40%"></div>
-              </div>
-
-              <div class="flex justify-between text-slate-400">
-                <span>TTS Streaming Audio Chunk:</span>
-                <span id="calc-tts-val" class="text-slate-200">150 ms</span>
-              </div>
-              <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
-                <div id="bar-tts" class="bg-accent-violet h-full transition-all duration-300" style="width: 35%"></div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Total Latency Gauge Display -->
-          <div class="bg-slate-900/90 p-6 rounded-2xl border border-slate-800 text-center flex flex-col items-center justify-center space-y-4">
-            <div class="text-xs font-mono uppercase tracking-wider text-slate-400">Estimated Total Turn-Around Time</div>
-            
-            <div class="relative flex items-center justify-center my-2">
-              <div class="w-40 h-40 rounded-full border-8 border-slate-800 flex items-center justify-center">
-                <div class="text-center">
-                  <span id="calc-total-latency" class="text-4xl font-extrabold font-mono text-emerald-400">440</span>
-                  <span class="text-xs font-mono text-slate-400 block">milliseconds</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="inline-flex items-center space-x-2 text-xs text-emerald-400 font-mono bg-emerald-500/10 px-3 py-1.5 rounded-full border border-emerald-500/20">
-              <i data-lucide="check-circle-2" class="w-4 h-4"></i>
-              <span>Faster than human conversational pause (~500ms)</span>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- COMPARISON TABLE (Retell vs Vapi vs Bland vs OmniVoice) -->
-  <section id="comparison" class="py-20 relative">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      
-      <div class="text-center max-w-2xl mx-auto mb-12">
-        <h2 class="text-3xl font-bold text-white tracking-tight">How OmniVoice Compares</h2>
-        <p class="text-slate-400 text-sm mt-2">All the benefits with none of the platform trade-offs.</p>
-      </div>
-
-      <div class="glass-card rounded-2xl border border-slate-800 overflow-x-auto">
-        <table class="w-full text-left text-sm text-slate-300">
-          <thead class="bg-slate-900/80 text-xs uppercase font-mono text-slate-400 border-b border-slate-800">
-            <tr>
-              <th class="p-4">Feature / Capability</th>
-              <th class="p-4 text-center">Retell AI</th>
-              <th class="p-4 text-center">Vapi AI</th>
-              <th class="p-4 text-center">Bland AI</th>
-              <th class="p-4 text-center text-brand-400 bg-brand-500/10">OmniVoice (Unified)</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-slate-800/60 font-mono text-xs">
-            <tr>
-              <td class="p-4 font-sans font-medium text-white">Average Latency</td>
-              <td class="p-4 text-center text-slate-400">~800ms</td>
-              <td class="p-4 text-center text-slate-400">~1,200ms</td>
-              <td class="p-4 text-center text-slate-400">~900ms</td>
-              <td class="p-4 text-center font-bold text-emerald-400 bg-brand-500/5">&lt; 450ms</td>
-            </tr>
-            <tr>
-              <td class="p-4 font-sans font-medium text-white">Bring Your Own Keys (BYOK)</td>
-              <td class="p-4 text-center text-amber-400">Partial</td>
-              <td class="p-4 text-center text-emerald-400">✓ Full</td>
-              <td class="p-4 text-center text-rose-400">✗ Locked</td>
-              <td class="p-4 text-center font-bold text-emerald-400 bg-brand-500/5">✓ Full</td>
-            </tr>
-            <tr>
-              <td class="p-4 font-sans font-medium text-white">High-Volume Batch Outbound</td>
-              <td class="p-4 text-center text-amber-400">Moderate</td>
-              <td class="p-4 text-center text-amber-400">Developer build</td>
-              <td class="p-4 text-center text-emerald-400">✓ Native</td>
-              <td class="p-4 text-center font-bold text-emerald-400 bg-brand-500/5">✓ Native (100k)</td>
-            </tr>
-            <tr>
-              <td class="p-4 font-sans font-medium text-white">In-Call Human Warm Transfer</td>
-              <td class="p-4 text-center text-emerald-400">✓ Native</td>
-              <td class="p-4 text-center text-rose-400">✗ Complex</td>
-              <td class="p-4 text-center text-amber-400">Basic</td>
-              <td class="p-4 text-center font-bold text-emerald-400 bg-brand-500/5">✓ Native SIP</td>
-            </tr>
-            <tr>
-              <td class="p-4 font-sans font-medium text-white">Compliance (HIPAA / SOC 2)</td>
-              <td class="p-4 text-center text-emerald-400">✓ Included</td>
-              <td class="p-4 text-center text-amber-400">Tier Gated</td>
-              <td class="p-4 text-center text-emerald-400">✓ Included</td>
-              <td class="p-4 text-center font-bold text-emerald-400 bg-brand-500/5">✓ Standard</td>
-            </tr>
-            <tr>
-              <td class="p-4 font-sans font-medium text-white">Pricing Structure</td>
-              <td class="p-4 text-center text-slate-400">$0.07/min</td>
-              <td class="p-4 text-center text-slate-400">$0.05/min + extras</td>
-              <td class="p-4 text-center text-slate-400">$0.09/min</td>
-              <td class="p-4 text-center font-bold text-brand-400 bg-brand-500/5">$0.05/min Flat</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- CODE SNIPPET / API SHOWCASE SECTION -->
-  <section id="code" class="py-16 bg-slate-950 border-t border-slate-800">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      
-      <div class="flex flex-col md:flex-row md:items-center justify-between mb-8">
-        <div>
-          <h2 class="text-2xl font-bold text-white tracking-tight">5 Lines of Code to Initiate a Phone Call</h2>
-          <p class="text-slate-400 text-xs mt-1">Deploy an agent using REST API, Node.js SDK, or Python.</p>
-        </div>
-
-        <!-- Code Language Switcher Tabs -->
-        <div class="flex items-center space-x-2 mt-4 md:mt-0 bg-slate-900 p-1 rounded-xl border border-slate-800 text-xs font-mono">
-          <button onclick="switchCode('curl')" id="tab-curl" class="px-3 py-1.5 rounded-lg bg-brand-600 text-white transition-all">cURL</button>
-          <button onclick="switchCode('node')" id="tab-node" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white transition-all">Node.js</button>
-          <button onclick="switchCode('python')" id="tab-python" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white transition-all">Python</button>
-        </div>
-      </div>
-
-      <!-- Code Box with Copy Button -->
-      <div class="glass-card rounded-2xl border border-slate-800 p-5 relative font-mono text-xs text-slate-300">
-        <button onclick="copyCode()" class="absolute top-4 right-4 px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg border border-slate-700 flex items-center space-x-1.5 text-xs transition-colors">
-          <i data-lucide="copy" class="w-3.5 h-3.5"></i>
-          <span id="copy-btn-text">Copy Code</span>
-        </button>
-
-        <pre id="code-block" class="overflow-x-auto pr-24 py-2"><code>curl -X POST https://api.omnivoice.ai/v1/calls/dispatch \
-  -H "Authorization: Bearer omni_sk_live_99283719" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "phone_number": "+14155552671",
-    "agent_id": "ag_sales_sarah",
-    "stt_provider": "deepgram",
-    "llm_model": "gpt-4o-mini",
-    "tts_provider": "elevenlabs",
-    "variables": { "customer_name": "Alex" }
-  }'</code></pre>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer class="border-t border-slate-800 bg-slate-950 py-12 text-slate-400 text-xs">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
-      <div class="flex items-center space-x-3">
-        <div class="w-8 h-8 rounded-lg bg-brand-600 flex items-center justify-center text-white">
-          <i data-lucide="waves" class="w-5 h-5"></i>
-        </div>
-        <span class="font-bold text-white text-base tracking-tight">OmniVoice AI</span>
-        <span class="text-slate-500">© 2026 OmniVoice Inc. All rights reserved.</span>
-      </div>
-
-      <div class="flex items-center space-x-6 text-slate-400">
-        <a href="#" class="hover:text-white transition-colors">Documentation</a>
-        <a href="#" class="hover:text-white transition-colors">System Status</a>
-        <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
-        <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
-      </div>
-    </div>
-  </footer>
-
-  <!-- JAVASCRIPT FOR INTERACTION & SIMULATION -->
-  <script>
-    // Initialize Lucide Icons
-    lucide.createIcons();
-
-    // 1. GENERATE VISUALIZER BARS IN SANDBOX
-    const visContainer = document.getElementById('visualizer-bars');
-    const barCount = 32;
-    for (let i = 0; i < barCount; i++) {
-      const bar = document.createElement('div');
-      bar.className = 'v-bar';
-      bar.style.height = '15%';
-      visContainer.appendChild(bar);
+        document.getElementById(tabId).classList.add('active');
+        event.currentTarget.classList.add('active');
+        setStatus('');
     }
 
-    let isCalling = false;
-    let visInterval = null;
-    let simScriptIndex = 0;
-
-    const mockConversation = [
-      { speaker: 'Agent', text: "Hello! Thanks for reaching out to Acme Corp. This is Sarah. Am I speaking with Alex?" },
-      { speaker: 'User', text: "Yes, hi Sarah! We're looking to automate our inbound support calls." },
-      { speaker: 'Agent', text: "Fantastic! We specialize in low-latency phone automation. What is your estimated monthly call volume?" },
-      { speaker: 'User', text: "Around 15,000 calls a month, and we need HIPAA compliance." },
-      { speaker: 'Agent', text: "Got it! Extracting 15,000 calls/month and HIPAA requirement. We support full HIPAA compliance standard on every account. Would you like me to send a direct calendar invite for a quick demo?" }
-    ];
-
-    // 2. TOGGLE SIMULATED WEB CALL
-    function toggleCall() {
-      isCalling = !isCalling;
-      const btnText = document.getElementById('call-btn-text');
-      const btn = document.getElementById('btn-toggle-call');
-      const statusInd = document.getElementById('call-status-indicator');
-      const statusText = document.getElementById('call-status-text');
-      const overlay = document.getElementById('visualizer-overlay');
-      const transcriptBox = document.getElementById('transcript-box');
-
-      if (isCalling) {
-        btnText.textContent = "End Call";
-        btn.className = "px-5 py-2 rounded-xl text-sm font-semibold text-white bg-rose-600 hover:bg-rose-500 transition-all flex items-center space-x-2 shadow-lg shadow-rose-600/20";
-        statusInd.className = "w-3 h-3 rounded-full bg-emerald-400 animate-pulse";
-        statusText.textContent = "Status: Connected (440ms streaming)";
-        overlay.style.display = "none";
-        
-        transcriptBox.innerHTML = '';
-        simScriptIndex = 0;
-
-        // Animate visualizer waveform
-        visInterval = setInterval(() => {
-          const bars = document.querySelectorAll('.v-bar');
-          bars.forEach(bar => {
-            const h = Math.floor(Math.random() * 85) + 15;
-            bar.style.height = `${h}%`;
-          });
-        }, 120);
-
-        // Run mock dialog step by step
-        runNextDialogStep();
-
-      } else {
-        btnText.textContent = "Start Web Call";
-        btn.className = "px-5 py-2 rounded-xl text-sm font-semibold text-white bg-emerald-600 hover:bg-emerald-500 transition-all flex items-center space-x-2 shadow-lg shadow-emerald-600/20";
-        statusInd.className = "w-3 h-3 rounded-full bg-slate-600";
-        statusText.textContent = "Status: Standby";
-        overlay.style.display = "flex";
-
-        clearInterval(visInterval);
-        const bars = document.querySelectorAll('.v-bar');
-        bars.forEach(bar => bar.style.height = '15%');
-      }
+    function setStatus(msg) {
+        document.getElementById('statusMsg').innerText = msg;
     }
 
-    function runNextDialogStep() {
-      if (!isCalling || simScriptIndex >= mockConversation.length) return;
-
-      const current = mockConversation[simScriptIndex];
-      const transcriptBox = document.getElementById('transcript-box');
-
-      const msgDiv = document.createElement('div');
-      msgDiv.className = current.speaker === 'Agent' ? 'text-brand-400' : 'text-slate-200 text-right';
-      msgDiv.innerHTML = `<span class="text-[10px] text-slate-500 block uppercase">${current.speaker}</span> ${current.text}`;
-      
-      transcriptBox.appendChild(msgDiv);
-      transcriptBox.scrollTop = transcriptBox.scrollHeight;
-
-      // Simulate variable extraction on specific steps
-      if (simScriptIndex === 3) {
-        document.getElementById('extracted-budget').textContent = "Call Volume: 15k/mo";
-        document.getElementById('extracted-timeline').textContent = "HIPAA: Required";
-        document.getElementById('extracted-budget').className = "px-2 py-0.5 rounded bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 font-bold";
-        document.getElementById('extracted-timeline').className = "px-2 py-0.5 rounded bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 font-bold";
-      }
-
-      simScriptIndex++;
-      setTimeout(runNextDialogStep, 3200);
-    }
-
-    // 3. DYNAMIC LATENCY CALCULATOR
-    function updateLatency() {
-      const stt = document.getElementById('stt-select').value;
-      const llm = document.getElementById('llm-select').value;
-      const tts = document.getElementById('tts-select').value;
-
-      let sttTime = stt === 'deepgram' ? 110 : stt === 'assembly' ? 180 : 220;
-      let llmTime = llm === 'llama-groq' ? 90 : llm === 'gpt4o-mini' ? 180 : 210;
-      let ttsTime = tts === 'cartesia' ? 120 : tts === 'elevenlabs' ? 150 : 200;
-
-      const total = sttTime + llmTime + ttsTime;
-
-      // Update Sandbox readout
-      document.getElementById('calculated-latency').textContent = `${total} ms (Natural human standard)`;
-
-      // Update Calculator section values
-      document.getElementById('calc-stt-val').textContent = `${sttTime} ms`;
-      document.getElementById('calc-llm-val').textContent = `${llmTime} ms`;
-      document.getElementById('calc-tts-val').textContent = `${ttsTime} ms`;
-      document.getElementById('calc-total-latency').textContent = total;
-
-      // Update bars width ratio
-      document.getElementById('bar-stt').style.width = `${(sttTime / total) * 100}%`;
-      document.getElementById('bar-llm').style.width = `${(llmTime / total) * 100}%`;
-      document.getElementById('bar-tts').style.width = `${(ttsTime / total) * 100}%`;
-    }
-
-    // 4. CODE SNIPPET SWITCHER
-    const codeSnippets = {
-      curl: `curl -X POST https://api.omnivoice.ai/v1/calls/dispatch \\
-  -H "Authorization: Bearer omni_sk_live_99283719" \\
-  -H "Content-Type: application/json" \\
-  -d '{
-    "phone_number": "+14155552671",
-    "agent_id": "ag_sales_sarah",
-    "stt_provider": "deepgram",
-    "llm_model": "gpt-4o-mini",
-    "tts_provider": "elevenlabs",
-    "variables": { "customer_name": "Alex" }
-  }'`,
-      node: `import { OmniVoice } from '@omnivoice/sdk';
-
-const client = new OmniVoice({ apiKey: process.env.OMNIVOICE_API_KEY });
-
-const call = await client.calls.create({
-  phoneNumber: '+14155552671',
-  agentId: 'ag_sales_sarah',
-  providers: {
-    stt: 'deepgram',
-    llm: 'gpt-4o-mini',
-    tts: 'elevenlabs'
-  },
-  onTurn: (event) => console.log('Live conversation state:', event)
-});`,
-      python: `from omnivoice import OmniVoiceClient
-
-client = OmniVoiceClient(api_key="omni_sk_live_99283719")
-
-call = client.calls.dispatch(
-    phone_number="+14155552671",
-    agent_id="ag_sales_sarah",
-    stt_provider="deepgram",
-    llm_model="gpt-4o-mini",
-    tts_provider="elevenlabs",
-    variables={"customer_name": "Alex"}
-)
-
-print(f"Call initiated: {call.id}")`
-    };
-
-    function switchCode(lang) {
-      document.getElementById('code-block').innerText = codeSnippets[lang];
-      
-      const tabs = ['curl', 'node', 'python'];
-      tabs.forEach(t => {
-        const btn = document.getElementById(`tab-${t}`);
-        if (t === lang) {
-          btn.className = "px-3 py-1.5 rounded-lg bg-brand-600 text-white transition-all";
-        } else {
-          btn.className = "px-3 py-1.5 rounded-lg text-slate-400 hover:text-white transition-all";
+    function getApiKey() {
+        const key = document.getElementById('apiKey').value.trim();
+        if (!key) {
+            alert('Please enter your ElevenLabs API key.');
+            return null;
         }
-      });
+        return key;
     }
 
-    function copyCode() {
-      const text = document.getElementById('code-block').innerText;
-      navigator.clipboard.writeText(text);
-      const copyText = document.getElementById('copy-btn-text');
-      copyText.textContent = 'Copied!';
-      setTimeout(() => { copyText.textContent = 'Copy Code'; }, 2000);
+    // 1. TEXT TO SPEECH WORKER
+    async function generateTTS() {
+        const apiKey = getApiKey();
+        if (!apiKey) return;
+
+        const voiceId = document.getElementById('voiceId').value.trim();
+        const modelId = document.getElementById('ttsModel').value;
+        const text = document.getElementById('ttsText').value.trim();
+
+        if (!text) return alert('Please enter text for generation.');
+
+        const btn = document.getElementById('ttsBtn');
+        btn.disabled = true;
+        setStatus('Generating audio...');
+
+        try {
+            const response = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'audio/mpeg',
+                    'xi-api-key': apiKey,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    text: text,
+                    model_id: modelId
+                })
+            });
+
+            if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
+
+            const blob = await response.blob();
+            const audioUrl = URL.createObjectURL(blob);
+            
+            const audioElement = document.getElementById('ttsAudio');
+            audioElement.src = audioUrl;
+            document.getElementById('ttsOutput').style.display = 'block';
+            setStatus('TTS generation successful!');
+        } catch (err) {
+            setStatus(`Error: ${err.message}`);
+        } finally {
+            btn.disabled = false;
+        }
     }
-  </script>
+
+    // 2. SOUND EFFECTS WORKER
+    async function generateSFX() {
+        const apiKey = getApiKey();
+        if (!apiKey) return;
+
+        const prompt = document.getElementById('sfxPrompt').value.trim();
+        const duration = document.getElementById('sfxDuration').value.trim();
+
+        if (!prompt) return alert('Please enter a sound effect prompt.');
+
+        const btn = document.getElementById('sfxBtn');
+        btn.disabled = true;
+        setStatus('Generating sound effect...');
+
+        const payload = { text: prompt };
+        if (duration && !isNaN(duration)) {
+            payload.duration_seconds = parseFloat(duration);
+        }
+
+        try {
+            const response = await fetch('https://api.elevenlabs.io/v1/sound-generation', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'audio/mpeg',
+                    'xi-api-key': apiKey,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
+
+            const blob = await response.blob();
+            const audioUrl = URL.createObjectURL(blob);
+            
+            const audioElement = document.getElementById('sfxAudio');
+            audioElement.src = audioUrl;
+            document.getElementById('sfxOutput').style.display = 'block';
+            setStatus('SFX generation successful!');
+        } catch (err) {
+            setStatus(`Error: ${err.message}`);
+        } finally {
+            btn.disabled = false;
+        }
+    }
+
+    // 3. SPEECH TO TEXT WORKER (Scribe)
+    async function transcribeAudio() {
+        const apiKey = getApiKey();
+        if (!apiKey) return;
+
+        const fileInput = document.getElementById('sttFile');
+        if (!fileInput.files.length) return alert('Please select an audio file.');
+
+        const btn = document.getElementById('sttBtn');
+        btn.disabled = true;
+        setStatus('Transcribing audio...');
+
+        const formData = new FormData();
+        formData.append('file', fileInput.files[0]);
+        formData.append('model_id', 'scribe_v1');
+
+        try {
+            const response = await fetch('https://api.elevenlabs.io/v1/speech-to-text', {
+                method: 'POST',
+                headers: {
+                    'xi-api-key': apiKey
+                },
+                body: formData
+            });
+
+            if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
+
+            const data = await response.json();
+            document.getElementById('sttTextResult').value = data.text || 'No speech detected.';
+            document.getElementById('sttOutput').style.display = 'block';
+            setStatus('Transcription completed successfully!');
+        } catch (err) {
+            setStatus(`Error: ${err.message}`);
+        } finally {
+            btn.disabled = false;
+        }
+    }
+
+    // 4. CONVERSATIONAL AGENT WIDGET MOUNTER
+    function loadAgentWidget() {
+        const agentId = document.getElementById('agentId').value.trim();
+        if (!agentId) return alert('Please input a valid Agent ID.');
+
+        // Inject the official ElevenLabs Conversational AI Web Component script
+        if (!document.getElementById('elevenlabs-agent-script')) {
+            const script = document.createElement('script');
+            script.id = 'elevenlabs-agent-script';
+            script.src = 'https://elevenlabs.io/convai-widget/index.js';
+            script.async = true;
+            document.body.appendChild(script);
+        }
+
+        // Add the custom element tag
+        let widget = document.querySelector('elevenlabs-convai');
+        if (!widget) {
+            widget = document.createElement('elevenlabs-convai');
+            document.body.appendChild(widget);
+        }
+        widget.setAttribute('agent-id', agentId);
+
+        document.getElementById('agentContainer').style.display = 'block';
+        setStatus('Voice Agent Widget loaded!');
+    }
+</script>
+
 </body>
 </html>

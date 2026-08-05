@@ -367,16 +367,27 @@
                     <div class="flex justify-between items-start">
                         <div>
                             <div class="text-xs font-bold text-indigo-300">${agent.name}</div>
-                            <div class="text-[10px] font-mono text-gray-400">ID: ${agent.id}</div>
+                            <div class="text-[10px] font-mono text-gray-400">Agent ID: ${agent.id}</div>
                         </div>
                         <span class="text-[9px] bg-emerald-950 text-emerald-400 border border-emerald-800 px-1.5 py-0.5 rounded">Active</span>
                     </div>
+                    <div class="text-[10px] font-mono text-gray-300 bg-gray-900/60 p-1.5 rounded border border-gray-800 select-all">
+                        <span class="text-gray-500 font-sans">Voice ID:</span> ${agent.voiceId}
+                    </div>
                     <div class="flex items-center justify-between pt-1 border-t border-gray-700/40 text-[10px] text-gray-400">
-                        <span>Voice ID: ${agent.voiceId.substring(0, 8)}...</span>
-                        <button onclick="selectAgentForEmbed('${agent.id}')" class="text-indigo-400 hover:underline">Get Embed Code</button>
+                        <button onclick="copyToClipboard('${agent.voiceId}', 'Voice ID')" class="text-gray-400 hover:text-gray-200">Copy Voice ID</button>
+                        <button onclick="selectAgentForEmbed('${agent.id}')" class="text-indigo-400 hover:underline font-semibold">Get Embed Code</button>
                     </div>
                 </div>
             `).join('');
+        }
+
+        function copyToClipboard(text, label) {
+            navigator.clipboard.writeText(text).then(() => {
+                log(`${label} copied to clipboard!`, 'success');
+            }).catch(err => {
+                log(`Failed to copy ${label}: ${err}`, 'error');
+            });
         }
 
         function selectAgentForEmbed(agentId) {

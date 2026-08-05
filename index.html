@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 
-<elevenlabs-convai agent-id="agent_8601kz91tbs0fmrrvspf7031cb8z"></elevenlabs-convai>
+<elevenlabs-convai agent-id="agent_4301kz6dtaheejfs3e5j1emgpsy0"></elevenlabs-convai>
 <script src="https://elevenlabs.io/convai-widget/index.js" async type="text/javascript"></script>
     
     <meta charset="UTF-8">
@@ -105,10 +105,43 @@
                     <div>
                         <div class="flex justify-between items-center mb-1">
                             <label class="block text-xs font-medium text-gray-400">Voice Selection</label>
-                            <button onclick="fetchAllVoices()" id="fetchVoicesBtn" class="text-[10px] text-indigo-400 hover:text-indigo-300 underline font-medium">⚡ Load All Account Voices</button>
+                            <button onclick="fetchAllVoices()" id="fetchVoicesBtn" class="text-[10px] text-indigo-400 hover:text-indigo-300 underline font-medium">⚡ Load Extra Voices via API</button>
                         </div>
                         <div id="voiceInputContainer" class="flex gap-2">
-                            <input type="text" id="voiceId" value="21m00Tcm4TlvDq8ikWAM" placeholder="e.g. 21m00Tcm4TlvDq8ikWAM" class="w-full bg-gray-800 border border-gray-700 rounded-lg p-2.5 text-xs focus:ring-1 focus:ring-indigo-500 focus:outline-none" />
+                            <select id="voiceId" class="w-full bg-gray-800 border border-gray-700 rounded-lg p-2.5 text-xs focus:ring-1 focus:ring-indigo-500 focus:outline-none custom-scrollbar">
+                                <option value="jqcCZkN6Knx8BJ5TBdYR">Zara – The Warm, Real-World Conversationalist</option>
+                                <option value="qSeXEcewz7tA0Q0qk9fH">Victoria – Warm, Trustworthy, and Relatable</option>
+                                <option value="gcgATH9maP3HG8oRh9Pn">Lyla – Gloomy, Thoughtful and Calm</option>
+                                <option value="KoVIHoyLDrQyd4pGalbs">Autumn Veil – Warm and Reflective</option>
+                                <option value="dAlhI9qAHVIjXuVppzhW">Tamsin – Engaging British Storyteller</option>
+                                <option value="NFFZBoF6tNodi008z7VH">Jane – Articulate, Natural and Clear</option>
+                                <option value="AXdMgz6evoL7OPd7eU12">Elizabeth – Precise, Clear and Natural</option>
+                                <option value="zzAIcrq5pp7webLI6ptl">Maya – Friendly, Helpful, Effortless</option>
+                                <option value="DIS307HFaAvJZzq496qM">Cecilia O'Connor – Warm & Conversational</option>
+                                <option value="IwFADcBfc7Yo8KGhxTR5">Zoe – Upbeat Aussie & British Accents</option>
+                                <option value="aHCytOTnUOgfGPn5n89j">Bea – Corporate, Polished and Clear</option>
+                                <option value="GZ4PpFJV8ikEGUtBrjK7">Laura – Top Narration Voice</option>
+                                <option value="DbwWo4rVEd5NrejHYUnm">Jessica Gallagher – Clear and Neutral</option>
+                                <option value="FLj50PrMa40MhGHappOt">Beth – Commercial, Upbeat, Engaging (Paid)</option>
+                                <option value="YyqkX0AHv8W5D1vxG9lR">Hazel – Warm, Witty & Conversational (Paid)</option>
+                                <option value="t1myskmYQbiTpxXcDfBx">Lydia – Engaging and Enticing (Paid)</option>
+                                <option value="AFpJHw6AxGC0nx0fpvpi">Dorothy – British Children's Storyteller (Paid)</option>
+                                <option value="4Bg4N8Tjcy6Rm0IWmqRj">Brooke – Warm, Calm & Conversational (Paid)</option>
+                                <option value="BBz8H3kffyIUs3SYExlh">Sabine – Fun and Dynamic Narrator (Paid)</option>
+                                <option value="FUfBrNit0NNZAwb58KWH">Angela – Conversational and Friendly (Paid)</option>
+                                <option value="6HXfTcSnxaoT6uM4pTRP">Delphi – Transformational Narrator (Paid)</option>
+                                <option value="tMXujoAjiboschVOhAnk">Clara – Corporate & Training Trusted Professional</option>
+                                <option value="wbihXt5KOYwoX0trs0wq">David – Friendly & Relaxed Narrator (Paid)</option>
+                                <option value="EozfaQ3ZX0esAp1cW5nG">David – Confident, Friendly and Deep (Paid)</option>
+                                <option value="v9LgF91V36LGgbLX3iHW">David – American Narrator (Paid)</option>
+                                <option value="FF7KdobWPaiR0vkcALHF">David – Movie Trailer Narrator (Paid)</option>
+                                <option value="y1adqrqs4jNaANXsIZnD">David Boles – Well-spoken and Calm (Paid)</option>
+                                <option value="SrWU271vZiNf2mrBhzL5">Zain – Deep, Reassuring and Warm</option>
+                                <option value="NpVSXJvYSdIbjOaMbShj">Jawid Iqbal Anwar – News Anchor</option>
+                                <option value="ZF5uWKM2iVvSId3tBCYt">Lyly – Calm, Witty and Clear (Indonesian)</option>
+                                <option value="15Y62ZlO8it2f5wduybx">Shazrina – Calm, Soothing and Gentle</option>
+                                <option value="UcqZLa941Kkt8ZhEEybf">Afifah – Friendly, Tender and Calm</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -267,21 +300,15 @@
                 const data = await response.json();
 
                 if (response.ok && data.voices) {
-                    log(`Fetched ${data.voices.length} voices successfully!`, 'success');
+                    log(`Fetched ${data.voices.length} account voices successfully!`, 'success');
 
-                    const container = document.getElementById('voiceInputContainer');
-                    const currentValue = document.getElementById('voiceId').value;
-
+                    const selectEl = document.getElementById('voiceId');
+                    
                     let optionsHtml = data.voices.map(v => 
                         `<option value="${v.voice_id}">${v.name} (${v.category || 'Custom'}) - ${v.voice_id}</option>`
                     ).join('');
 
-                    container.innerHTML = `
-                        <select id="voiceId" class="w-full bg-gray-800 border border-gray-700 rounded-lg p-2 text-xs focus:outline-none">
-                            ${optionsHtml}
-                        </select>
-                    `;
-
+                    selectEl.innerHTML = optionsHtml;
                     btn.innerText = `✓ Loaded ${data.voices.length} Voices`;
                 } else {
                     log(`API ERROR: ${data.detail?.message || 'Failed to fetch voices'}`, 'error');
@@ -297,25 +324,25 @@
         const presets = {
             support: {
                 name: "Customer Support Agent",
-                voiceId: "21m00Tcm4TlvDq8ikWAM",
+                voiceId: "jqcCZkN6Knx8BJ5TBdYR",
                 firstMessage: "Hi there! Welcome to support. How can I help resolve your inquiry today?",
                 prompt: "You are an empathetic, precise Customer Support representative. Provide clear answers and troubleshooting steps."
             },
             sales: {
                 name: "High Conversions Sales Rep",
-                voiceId: "AZnzlk1XvdvUeBnXmlld",
+                voiceId: "qSeXEcewz7tA0Q0qk9fH",
                 firstMessage: "Hello! Excited to chat with you today. Are you looking to upgrade your digital workflow?",
                 prompt: "You are an energetic, persuasive sales consultant. Understand user needs and highlight competitive advantages succinctly."
             },
             receptionist: {
                 name: "Front Desk Receptionist",
-                voiceId: "EXAVITQu4vr4xnSDxMaL",
+                voiceId: "aHCytOTnUOgfGPn5n89j",
                 firstMessage: "Good day! Thank you for calling our office. Who am I speaking with today?",
                 prompt: "You are a professional receptionist. Collect caller details, offer calendar availability, and maintain an organized tone."
             },
             tutor: {
                 name: "Interactive Language Coach",
-                voiceId: "ErXwobaYiN019PkySvjV",
+                voiceId: "dAlhI9qAHVIjXuVppzhW",
                 firstMessage: "Welcome! Ready for your daily conversational practice?",
                 prompt: "You are an encouraging language tutor. Engage in friendly conversation, gently correct grammar, and suggest better phrasing."
             }

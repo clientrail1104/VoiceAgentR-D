@@ -20,7 +20,7 @@
                 11
             </div>
             <div>
-                <h1 class="text-lg font-bold tracking-wide">Zero-Error 100 Voice Agent Creator</h1>
+                <h1 class="text-lg font-bold tracking-wide">100 Voice Agent Creator</h1>
                 <p class="text-xs text-gray-400">Auto-Syncs Voices & Generates Embed Script Tags</p>
             </div>
         </div>
@@ -28,7 +28,7 @@
         <div class="flex items-center gap-2 bg-gray-800/80 p-2 rounded-lg border border-gray-700 w-full md:w-auto">
             <input type="password" id="apiKey" placeholder="Paste xi-api-key here..." class="bg-transparent text-sm text-gray-100 focus:outline-none w-64 px-1" />
             <button onclick="verifyAndSync100Voices()" class="bg-indigo-600 hover:bg-indigo-500 text-xs text-white px-3 py-1.5 rounded transition font-medium">
-                Verify 100 Active Voices
+                Verify API Key
             </button>
         </div>
     </header>
@@ -81,7 +81,7 @@
 
                 <div class="pt-2">
                     <button onclick="startBatchCreation()" id="createBtn" class="w-full bg-indigo-600 hover:bg-indigo-500 font-semibold text-white py-3 rounded-lg text-xs transition flex items-center justify-center gap-2 shadow-lg shadow-indigo-600/30">
-                        🚀 Create All 100 Functional Bots (Zero Error)
+                        🚀 Create All 100 Functional Bots
                     </button>
                 </div>
             </div>
@@ -93,7 +93,7 @@
                     <span id="progressPercentage" class="text-xs font-mono text-indigo-400">0 / 100</span>
                 </div>
                 <div id="consoleLog" class="bg-gray-950 p-3 rounded-lg font-mono text-[11px] text-emerald-400 custom-scrollbar overflow-y-auto flex-1 space-y-1 border border-gray-800">
-                    <div>[READY] Enter your xi-api-key above and click 'Verify 100 Active Voices'.</div>
+                    <div>[READY] Enter your xi-api-key above and click 'Verify API Key'.</div>
                 </div>
             </div>
         </section>
@@ -308,7 +308,7 @@
             }
 
             btn.disabled = false;
-            btn.innerText = "🚀 Create All 100 Functional Bots (Zero Error)";
+            btn.innerText = "🚀 Create All 100 Functional Bots";
             log(`🎉 BATCH COMPLETE: All 100 agents created with zero errors!`, 'success');
         }
 

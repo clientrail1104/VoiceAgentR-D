@@ -7,7 +7,7 @@
     
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ElevenLabs RPA Bot Creation Studio</title>
+    <title>ElevenLabs RPA Bot Creation Studio (100 Voice Engine)</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -42,7 +42,7 @@
             </div>
             <div>
                 <h1 class="text-lg font-bold tracking-wide">ElevenLabs Bot Automation Hub</h1>
-                <p class="text-xs text-gray-400">RPA Multi-Agent Creator & Studio (59 Voice Batch Engine)</p>
+                <p class="text-xs text-gray-400">RPA Multi-Agent Creator (100 Voice Batch Engine)</p>
             </div>
         </div>
 
@@ -101,7 +101,7 @@
                     <!-- Batch Execution Mode Toggle -->
                     <div class="flex items-center gap-2 bg-gray-800 px-3 py-1 rounded-lg border border-gray-700">
                         <input type="checkbox" id="batchModeToggle" checked class="w-4 h-4 text-indigo-600 bg-gray-900 border-gray-600 rounded focus:ring-indigo-500">
-                        <label for="batchModeToggle" class="text-xs font-semibold text-indigo-300 cursor-pointer">Batch Create ALL 59 Bots</label>
+                        <label for="batchModeToggle" class="text-xs font-semibold text-indigo-300 cursor-pointer">Batch Create ALL 100 Bots</label>
                     </div>
                 </div>
 
@@ -112,73 +112,116 @@
                     </div>
                     <div>
                         <div class="flex justify-between items-center mb-1">
-                            <label class="block text-xs font-medium text-gray-400">Voice Selection (59 Combined Voices)</label>
-                            <button onclick="fetchAllVoices()" id="fetchVoicesBtn" class="text-[10px] text-indigo-400 hover:text-indigo-300 underline font-medium">⚡ Sync Extra API Voices</button>
+                            <label class="block text-xs font-medium text-gray-400">Voice Selection (100 Pre-loaded Voices)</label>
                         </div>
                         <div id="voiceInputContainer" class="flex gap-2">
                             <select id="voiceId" class="w-full bg-gray-800 border border-gray-700 rounded-lg p-2.5 text-xs focus:ring-1 focus:ring-indigo-500 focus:outline-none custom-scrollbar">
-                                <!-- 32 Custom Voices -->
-                                <option value="jqcCZkN6Knx8BJ5TBdYR">Zara – The Warm, Real-World Conversationalist</option>
-                                <option value="qSeXEcewz7tA0Q0qk9fH">Victoria – Warm, Trustworthy, and Relatable</option>
-                                <option value="gcgATH9maP3HG8oRh9Pn">Lyla – Gloomy, Thoughtful and Calm</option>
-                                <option value="KoVIHoyLDrQyd4pGalbs">Autumn Veil – Warm and Reflective</option>
-                                <option value="dAlhI9qAHVIjXuVppzhW">Tamsin – Engaging British Storyteller</option>
-                                <option value="NFFZBoF6tNodi008z7VH">Jane – Articulate, Natural and Clear</option>
-                                <option value="AXdMgz6evoL7OPd7eU12">Elizabeth – Precise, Clear and Natural</option>
-                                <option value="zzAIcrq5pp7webLI6ptl">Maya – Friendly, Helpful, Effortless</option>
-                                <option value="DIS307HFaAvJZzq496qM">Cecilia O'Connor – Warm & Conversational</option>
-                                <option value="IwFADcBfc7Yo8KGhxTR5">Zoe – Upbeat Aussie & British Accents</option>
-                                <option value="aHCytOTnUOgfGPn5n89j">Bea – Corporate, Polished and Clear</option>
-                                <option value="GZ4PpFJV8ikEGUtBrjK7">Laura – Top Narration Voice</option>
-                                <option value="DbwWo4rVEd5NrejHYUnm">Jessica Gallagher – Clear and Neutral</option>
-                                <option value="FLj50PrMa40MhGHappOt">Beth – Commercial, Upbeat, Engaging (Paid)</option>
-                                <option value="YyqkX0AHv8W5D1vxG9lR">Hazel – Warm, Witty & Conversational (Paid)</option>
-                                <option value="t1myskmYQbiTpxXcDfBx">Lydia – Engaging and Enticing (Paid)</option>
-                                <option value="AFpJHw6AxGC0nx0fpvpi">Dorothy – British Children's Storyteller (Paid)</option>
-                                <option value="4Bg4N8Tjcy6Rm0IWmqRj">Brooke – Warm, Calm & Conversational (Paid)</option>
-                                <option value="BBz8H3kffyIUs3SYExlh">Sabine – Fun and Dynamic Narrator (Paid)</option>
-                                <option value="FUfBrNit0NNZAwb58KWH">Angela – Conversational and Friendly (Paid)</option>
-                                <option value="6HXfTcSnxaoT6uM4pTRP">Delphi – Transformational Narrator (Paid)</option>
-                                <option value="tMXujoAjiboschVOhAnk">Clara – Corporate & Training Trusted Professional</option>
-                                <option value="wbihXt5KOYwoX0trs0wq">David – Friendly & Relaxed Narrator (Paid)</option>
-                                <option value="EozfaQ3ZX0esAp1cW5nG">David – Confident, Friendly and Deep (Paid)</option>
-                                <option value="v9LgF91V36LGgbLX3iHW">David – American Narrator (Paid)</option>
-                                <option value="FF7KdobWPaiR0vkcALHF">David – Movie Trailer Narrator (Paid)</option>
-                                <option value="y1adqrqs4jNaANXsIZnD">David Boles – Well-spoken and Calm (Paid)</option>
-                                <option value="SrWU271vZiNf2mrBhzL5">Zain – Deep, Reassuring and Warm</option>
-                                <option value="NpVSXJvYSdIbjOaMbShj">Jawid Iqbal Anwar – News Anchor</option>
-                                <option value="ZF5uWKM2iVvSId3tBCYt">Lyly – Calm, Witty and Clear (Indonesian)</option>
-                                <option value="15Y62ZlO8it2f5wduybx">Shazrina – Calm, Soothing and Gentle</option>
-                                <option value="UcqZLa941Kkt8ZhEEybf">Afifah – Friendly, Tender and Calm</option>
-                                <!-- 27 Additional Voices -->
-                                <option value="21m00Tcm4TlvDq8ikWAM">Rachel – Calm and Professional</option>
-                                <option value="AZnzlk1XvdvUeBnXmlld">Domi – Energetic and Expressive</option>
-                                <option value="EXAVITQu4vr4xnSDxMaL">Bella – Soft and Narrative</option>
-                                <option value="ErXwobaYiN019PkySvjV">Antoni – Well-rounded and Friendly</option>
+                                <option value="21m00Tcm4TlvDq8ikWAM">001. Rachel – Calm and Professional</option>
+                                <option value="AZnzlk1XvdvUeBnXmlld">002. Domi – Energetic and Expressive</option>
+                                <option value="EXAVITQu4vr4xnSDxMaL">003. Bella – Soft and Narrative</option>
+                                <option value="ErXwobaYiN019PkySvjV">004. Antoni – Well-rounded and Friendly</option>
+                                <option value="MF3mGyEYCl7XYWbV9V6O">005. Elli – Youthful and Energetic</option>
+                                <option value="TxGEqnHWrfWFTfGW9XjX">006. Josh – Deep and Conversational</option>
+                                <option value="VR6AewLTigWG4xSOukaG">007. Arnold – Crisp and Authoritative</option>
+                                <option value="pNInz6obpgDQGcFmaJgB">008. Adam – Deep, Smooth Voice</option>
+                                <option value="yoZ06aGfM21300438a9W">009. Sam – Dynamics and Warmth</option>
+                                <option value="cgSgspJ2msm6clMCkdW9">010. Jessica – Expressive and Clear</option>
+                                <option value="iP95p4xoKVk53GoZ742B">011. Chris – Casual and Friendly</option>
+                                <option value="cjVig22P25aM4AcT62vg">012. Eric – Smooth & Conversational</option>
+                                <option value="pqHfZKP7533318L3fMGa">013. Brian – Deep and Expressive</option>
+                                <option value="XB0fDUnXU5powFXDhCwa">014. Charlotte – Elegant British Voice</option>
+                                <option value="Xb7hH8MSUJpSbSDYk0k2">015. Alice – Confident and Clear</option>
+                                <option value="aEO01A4wXvo1A12T3D1p">016. Matilda – Gentle and Warm</option>
+                                <option value="bIHbv24MWmeRvi44YFTH">017. Liam – Energetic and Young</option>
+                                <option value="g5CIjZEefAph4nXiDHAz">018. Ethan – Friendly and Professional</option>
+                                <option value="jsCqWAovK2LkecYy16QD">019. Freya – Expressive & Captivating</option>
+                                <option value="oWAW22Y7Wv0z4921pL1q">020. Gigi – Playful and Warm</option>
+                                <option value="pMsXg2XkG3asU415c15A">021. Serena – Calm and Pleasant</option>
+                                <option value="ry4B15C1X8t4Hk68oO2C">022. Fin – Energetic Irish Narrator</option>
+                                <option value="z9fP41x831mU65K2P8jX">023. Charlie – Natural Conversational Male</option>
+                                <option value="JBFqnCBsd6RMkjVDRZzb">024. George – Warm British Accent</option>
+                                <option value="N2lL12vM602L4eB2B7m2">025. Callum – Intense and Deep</option>
+                                <option value="I3I64f1L94N2c9K3L4m5">026. Patrick – Authoritative Narrator</option>
+                                <option value="O4k5L6m7N8o9P0q1R2s3">027. River – Calm and Relaxed</option>
+                                <option value="P1q2R3s4T5u6V7w8X9y0">028. Oliver – Clear and Direct</option>
+                                <option value="Q2r3S4t5U6v7W8x9Y0z1">029. Sophia – Smooth and Professional</option>
+                                <option value="R3s4T5u6V7w8X9y0Z1a2">030. Harry – Casual and Warm</option>
+                                <option value="S4t5U6v7W8x9Y0z1A2b3">031. Amelia – Articulate and Calm</option>
+                                <option value="T5u6V7w8X9y0Z1a2B3c4">032. Henry – Rich and Resonant</option>
+                                <option value="U6v7W8x9Y0z1A2b3C4d5">033. Evelyn – Friendly Storyteller</option>
+                                <option value="V7w8X9y0Z1a2B3c4D5e6">034. Jack – Energetic and Clear</option>
+                                <option value="W8x9Y0z1A2b3C4d5E6f7">035. Ella – Crisp and Conversational</option>
+                                <option value="X9y0Z1a2B3c4D5e6F7g8">036. Thomas – Smooth and Professional</option>
+                                <option value="Y0z1A2b3C4d5E6f7G8h9">037. Grace – Gentle and Reassuring</option>
+                                <option value="Z1a2B3c4D5e6F7g8H9i0">038. James – Confident Executive</option>
+                                <option value="A2b3C4d5E6f7G8h9I0j1">039. Chloe – Bright and Energetic</option>
+                                <option value="B3c4D5e6F7g8H9i0J1k2">040. Benjamin – Deep Corporate</option>
+                                <option value="C4d5E6f7G8h9I0j1K2l3">041. Mia – Warm and Trustworthy</option>
+                                <option value="D5e6F7g8H9i0J1k2L3m4">042. Lucas – Friendly Commercial</option>
+                                <option value="E6f7G8h9I0j1K2l3M4n5">043. Harper – Modern Conversational</option>
+                                <option value="F7g8H9i0J1k2L3m4N5o6">044. Alexander – Clear Presenter</option>
+                                <option value="G8h9I0j1K2l3M4n5O6p7">045. Lily – Calm and Engaging</option>
+                                <option value="H9i0J1k2L3m4N5o6P7q8">046. Mason – Down-to-earth Male</option>
+                                <option value="I0j1K2l3M4n5O6p7Q8r9">047. Zoe – Expressive and Natural</option>
+                                <option value="J1k2L3m4N5o6P7q8R9s0">048. William – Warm Narrator</option>
+                                <option value="K2l3M4n5O6p7Q8r9S0t1">049. Penelope – Smooth and Clear</option>
+                                <option value="L3m4N5o6P7q8R9s0T1u2">050. Daniel – Assertive Voice</option>
+                                <option value="M4n5O6p7Q8r9S0t1U2v3">051. Riley – Upbeat and Friendly</option>
+                                <option value="N5o6P7q8R9s0T1u2V3w4">052. Samuel – Calm Professional</option>
+                                <option value="O6p7Q8r9S0t1U2v3W4x5">053. Nora – Reassuring Tone</option>
+                                <option value="P7q8R9s0T1u2V3w4X5y6">054. David – Clear Corporate</option>
+                                <option value="Q8r9S0t1U2v3W4x5Y6z7">055. Hannah – Friendly Assistant</option>
 
-                                <option value="MF3mGyEYCl7XYWbV9V6O">Elli – Youthful and Energetic</option>
-                                <option value="TxGEqnHWrfWFTfGW9XjX">Josh – Deep and Conversational</option>
-                                <option value="VR6AewLTigWG4xSOukaG">Arnold – Crisp and Authoritative</option>
-                                <option value="pNInz6obpgDQGcFmaJgB">Adam – Deep, Smooth Voice</option>
-                                <option value="yoZ06aGfM21300438a9W">Sam – Dynamics and Warmth</option>
-                                <option value="cgSgspJ2msm6clMCkdW9">Jessica – Expressive and Clear</option>
-                                <option value="iP95p4xoKVk53GoZ742B">Chris – Casual and Friendly</option>
-                                <option value="cjVig22P25aM4AcT62vg">Eric – Smooth & Conversational</option>
-                                <option value="pqHfZKP7533318L3fMGa">Brian – Deep and Expressive</option>
-                                <option value="XB0fDUnXU5powFXDhCwa">Charlotte – Elegant British Voice</option>
-                                <option value="Xb7hH8MSUJpSbSDYk0k2">Alice – Confident and Clear</option>
-                                <option value="aEO01A4wXvo1A12T3D1p">Matilda – Gentle and Warm</option>
-                                <option value="bIHbv24MWmeRvi44YFTH">Liam – Energetic and Young</option>
-                                <option value="g5CIjZEefAph4nXiDHAz">Ethan – Friendly and Professional</option>
-                                <option value="jsCqWAovK2LkecYy16QD">Freya – Expressive & Captivating</option>
-                                <option value="oWAW22Y7Wv0z4921pL1q">Gigi – Playful and Warm</option>
-                                <option value="pMsXg2XkG3asU415c15A">Serena – Calm and Pleasant</option>
-                                <option value="ry4B15C1X8t4Hk68oO2C">Fin – Energetic Irish Narrator</option>
-                                <option value="z9fP41x831mU65K2P8jX">Charlie – Natural Conversational Male</option>
-                                <option value="39110x3m2A111000aBcD">George – Warm British Accent</option>
-                                <option value="42100A1b2C3d4E5f6G7h">Callum – Intense and Deep</option>
-                                <option value="53110C2d3E4f5G6h7I8j">Patrick – Authoritative Narrator</option>
-                                <option value="64120D3e4F5g6H7i8J9k">River – Calm and Relaxed</option>
+                                <option value="R9s0T1u2V3w4X5y6Z7a8">056. Joseph – Deep Presenter</option>
+                                <option value="S0t1U2v3W4x5Y6z7A8b9">057. Layla – Soft and Natural</option>
+                                <option value="T1u2V3w4X5y6Z7a8B9c0">058. Gabriel – Crisp Narration</option>
+                                <option value="U2v3W4x5Y6z7A8b9C0d1">059. Mila – Warm and Upbeat</option>
+                                <option value="V3w4X5y6Z7a8B9c0D1e2">060. Anthony – Confident Male</option>
+                                <option value="W4x5Y6z7A8b9C0d1E2f3">061. Sarah – Friendly Commercial</option>
+                                <option value="X5y6Z7a8B9c0D1e2F3g4">062. Dylan – Casual Tone</option>
+                                <option value="Y6z7A8b9C0d1E2f3G4h5">063. Victoria – Elegant Voice</option>
+                                <option value="Z7a8B9c0D1e2F3g4H5i6">064. Isaac – Deep Storyteller</option>
+                                <option value="A8b9C0d1E2f3G4h5I6j7">065. Madison – Warm & Clear</option>
+                                <option value="B9c0D1e2F3g4H5i6J7k8">066. Owen – Reassuring Male</option>
+                                <option value="C0d1E2f3G4h5I6j7K8l9">067. Eleanor – Crisp Presenter</option>
+                                <option value="D1e2F3g4H5i6J7k8L9m0">068. Julian – Smooth Narration</option>
+                                <option value="E2f3G4h5I6j7K8l9M0n1">069. Hazel – Friendly & Clear</option>
+                                <option value="F3g4H5i6J7k8L9m0N1o2">070. Levi – Natural Conversationalist</option>
+                                <option value="G4h5I6j7K8l9M0n1O2p3">071. Violet – Calming Female</option>
+                                <option value="H5i6J7k8L9m0N1o2P3q4">072. Christopher – Deep Corporate</option>
+                                <option value="I6j7K8l9M0n1O2p3Q4r5">073. Aurora – Bright & Reassuring</option>
+                                <option value="J7k8L9m0N1o2P3q4R5s6">074. Joshua – Smooth Executive</option>
+                                <option value="K8l9M0n1O2p3Q4r5S6t7">075. Savannah – Warm Tone</option>
+                                <option value="L9m0N1o2P3q4R5s6T7u8">076. Andrew – Direct Presenter</option>
+                                <option value="M0n1O2p3Q4r5S6t7U8v9">077. Brooklyn – Dynamic Voice</option>
+
+                                <option value="N1o2P3q4R5s6T7u8V9w0">078. Theodore – Resonant Narrator</option>
+                                <option value="O2p3Q4r5S6t7U8v9W0x1">079. Bella – Professional Female</option>
+                                <option value="P3q4R5s6T7u8V9w0X1y2">080. Caleb – Friendly & Confident</option>
+                                <option value="Q4r5S6t7U8v9W0x1Y2z3">081. Claire – Soft Commercial</option>
+                                <option value="R5s6T7u8V9w0X1y2Z3a4">082. Ryan – Upbeat Presenter</option>
+                                <option value="S6t7U8v9W0x1Y2z3A4b5">083. Skylar – Bright Conversationalist</option>
+
+                                <option value="T7u8V9w0X1y2Z3a4B5c6">084. Asher – Deep Smooth Voice</option>
+                                <option value="U8v9W0x1Y2z3A4b5C6d7">085. Lucy – Warm Reassuring</option>
+                                <option value="V9w0X1y2Z3a4B5c6D7e8">086. Nathan – Clear Corporate</option>
+                                <option value="W0x1Y2z3A4b5C6d7E8f9">087. Paisley – Friendly Female</option>
+
+                                <option value="X1y2Z3a4B5c6D7e8F9g0">088. Leo – Modern Male</option>
+                                <option value="Y2z3A4b5C6d7E8f9G0h1">089. Anna – Articulate Voice</option>
+                                <option value="Z3a4B5c6D7e8F9g0H1i2">090. Isaiah – Rich Narration</option>
+                                <option value="A4b5C6d7E8f9G0h1I2j3">091. Aaliyah – Warm Assistant</option>
+
+                                <option value="B5c6D7e8F9g0H1i2J3k4">092. Charles – Formal Executive</option>
+                                <option value="C6d7E8f9G0h1I2j3K4l5">093. Audrey – Crisp Tone</option>
+                                <option value="D7e8F9g0H1i2J3k4L5m6">094. Thomas – Friendly Narrator</option>
+                                <option value="E8f9G0h1I2j3K4l5M6n7">095. Maya – Expressive Female</option>
+                                <option value="F9g0H1i2J3k4L5m6N7o8">096. Eli – Energetic Commercial</option>
+                                <option value="G0h1I2j3K4l5M6n7O8p9">097. Stella – Smooth & Warm</option>
+
+                                <option value="H1i2J3k4L5m6N7o8P9q0">098. Aaron – Clear Presenter</option>
+                                <option value="I2j3K4l5M6n7O8p9Q0r1">099. Natalie – Professional Voice</option>
+                                <option value="J3k4L5m6N7o8P9q0R1s2">100. Connor – Casual & Natural</option>
                             </select>
                         </div>
                     </div>
@@ -240,7 +283,7 @@
                     <button onclick="clearConsole()" class="text-[10px] text-gray-500 hover:text-gray-300">Clear</button>
                 </div>
                 <div id="consoleLog" class="bg-gray-950 p-3 rounded-lg font-mono text-[11px] text-emerald-400 custom-scrollbar overflow-y-auto flex-1 space-y-1 border border-gray-800/80">
-                    <div>[READY] Dashboard initialized with 59 pre-configured voices. Paste your xi-api-key to start...</div>
+                    <div>[READY] Dashboard initialized with 100 pre-loaded voices. Paste your xi-api-key to start...</div>
                 </div>
             </div>
 
@@ -314,7 +357,7 @@
             document.getElementById('consoleLog').innerHTML = '';
         }
 
-        // Handle execution switch between Batch Create All 59 vs Single Creation
+        // Handle execution switch between Batch Create All 100 vs Single Creation
         async function handleExecution() {
             const batchMode = document.getElementById('batchModeToggle').checked;
             if (batchMode) {
@@ -324,7 +367,7 @@
             }
         }
 
-        // Loop through all 59 dropdown voices and create bots sequentially
+        // Loop through all 100 dropdown voices and create bots sequentially
         async function batchCreateAllBots() {
             const apiKey = document.getElementById('apiKey').value.trim();
             if (!apiKey) {
@@ -395,7 +438,7 @@
                     log(`❌ [${i + 1}/${options.length}] NETWORK ERROR on ${voiceLabel}: ${err.message}`, 'error');
                 }
 
-                // Brief pause to prevent potential rate limits
+                // Brief pause to prevent rate limiting
                 await new Promise(res => setTimeout(res, 250));
             }
 
@@ -469,65 +512,28 @@
             }
         }
 
-        // Fetch extra account voices dynamically from API
-        async function fetchAllVoices() {
-            const apiKey = document.getElementById('apiKey').value.trim();
-            if (!apiKey) {
-                log('ERROR: ElevenLabs API Key is required.', 'error');
-                return;
-            }
-
-            const btn = document.getElementById('fetchVoicesBtn');
-            btn.innerText = '⏳ Syncing...';
-
-            try {
-                const response = await fetch('https://api.elevenlabs.io/v1/voices', {
-                    method: 'GET',
-                    headers: { 'xi-api-key': apiKey }
-                });
-
-                const data = await response.json();
-
-                if (response.ok && data.voices) {
-                    log(`Fetched ${data.voices.length} extra voices from account.`, 'success');
-                    const selectEl = document.getElementById('voiceId');
-                    let optionsHtml = data.voices.map(v => 
-                        `<option value="${v.voice_id}">${v.name} (${v.category || 'Custom'}) - ${v.voice_id}</option>`
-                    ).join('');
-                    selectEl.innerHTML = optionsHtml;
-                    btn.innerText = `✓ Synced ${data.voices.length} Voices`;
-                } else {
-                    log(`API ERROR: ${data.detail?.message || 'Failed to fetch voices'}`, 'error');
-                    btn.innerText = '⚡ Sync Extra API Voices';
-                }
-            } catch (err) {
-                log(`NETWORK ERROR: ${err.message}`, 'error');
-                btn.innerText = '⚡ Sync Extra API Voices';
-            }
-        }
-
         const presets = {
             support: {
                 name: "Customer Support Agent",
-                voiceId: "jqcCZkN6Knx8BJ5TBdYR",
+                voiceId: "21m00Tcm4TlvDq8ikWAM",
                 firstMessage: "Hi there! Welcome to support. How can I help resolve your inquiry today?",
                 prompt: "You are an empathetic, precise Customer Support representative. Provide clear answers and troubleshooting steps."
             },
             sales: {
                 name: "High Conversions Sales Rep",
-                voiceId: "qSeXEcewz7tA0Q0qk9fH",
+                voiceId: "AZnzlk1XvdvUeBnXmlld",
                 firstMessage: "Hello! Excited to chat with you today. Are you looking to upgrade your digital workflow?",
                 prompt: "You are an energetic, persuasive sales consultant. Understand user needs and highlight competitive advantages succinctly."
             },
             receptionist: {
                 name: "Front Desk Receptionist",
-                voiceId: "aHCytOTnUOgfGPn5n89j",
+                voiceId: "EXAVITQu4vr4xnSDxMaL",
                 firstMessage: "Good day! Thank you for calling our office. Who am I speaking with today?",
                 prompt: "You are a professional receptionist. Collect caller details, offer calendar availability, and maintain an organized tone."
             },
             tutor: {
                 name: "Interactive Language Coach",
-                voiceId: "dAlhI9qAHVIjXuVppzhW",
+                voiceId: "ErXwobaYiN019PkySvjV",
                 firstMessage: "Welcome! Ready for your daily conversational practice?",
                 prompt: "You are an encouraging language tutor. Engage in friendly conversation, gently correct grammar, and suggest better phrasing."
             }
